@@ -369,14 +369,16 @@ async function syncQuotes() {
   syncStatus.textContent = `Last sync: ${now}`;
   localStorage.setItem('lastSyncTime', now);
   
-  // Show notification
+  // Show success notification
+  alert('Quotes synced with server!');
+  showNotification('Quotes synced with server!', 3000);
+  
   const addedCount = newCount - oldCount;
   if (addedCount > 0) {
-    showNotification(`Sync successful! ${addedCount} new quotes added from server.`, 4000);
-  } else if (conflicts.length > 0) {
-    showNotification(`Sync successful! ${conflicts.length} conflicts resolved.`, 4000);
-  } else {
-    showNotification('Sync successful! Data is up to date.', 3000);
+    console.log(`${addedCount} new quotes added from server.`);
+  }
+  if (conflicts.length > 0) {
+    console.log(`${conflicts.length} conflicts resolved.`);
   }
   
   // Refresh display
