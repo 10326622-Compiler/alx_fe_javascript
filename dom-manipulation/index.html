@@ -8,6 +8,8 @@
 <body>
   <h1>Dynamic Quote Generator</h1>
   
+  <div id="notification" style="display:none; padding:10px; margin:10px 0; border:1px solid #ccc; background:#f0f0f0;"></div>
+  
   <select id="categoryFilter">
     <option value="all">All Categories</option>
   </select>
@@ -16,6 +18,10 @@
   <button id="newQuote">Show New Quote</button>
   <button id="exportQuotes">Export Quotes</button>
   <input type="file" id="importFile" accept=".json" />
+  <br><br>
+  <button id="syncQuotes">Sync with Server</button>
+  <span id="syncStatus">Last sync: Never</span>
+  
   <script src="script.js"></script>
 </body>
 </html>
