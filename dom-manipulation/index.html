@@ -1,59 +1,27 @@
-// Function to sync with server
-async function syncQuotes() {
-  showNotification('Syncing with server...', 2000);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Quote Generator</title>
+</head>
+<body>
+  <h1>Dynamic Quote Generator</h1>
   
-  // Fetch quotes from server
-  const serverQuotes = await fetchQuotesFromServer();
+  <div id="notification" style="display:none; padding:10px; margin:10px 0; border:1px solid #ccc; background:#f0f0f0;"></div>
   
-  if (!serverQuotes) {
-    showNotification('Sync failed - could not reach server', 3000);
-    return;
-  }
+  <select id="categoryFilter">
+    <option value="all">All Categories</option>
+  </select>
   
-  // Check for conflicts
-  const conflicts = resolveConflicts(quotes, serverQuotes);
+  <div id="quoteDisplay"></div>
+  <button id="newQuote">Show New Quote</button>
+  <button id="exportQuotes">Export Quotes</button>
+  <input type="file" id="importFile" accept=".json" />
+  <br><br>
+  <button id="syncQuotes">Sync with Server</button>
+  <span id="syncStatus">Last sync: Never</span>
   
-  if (conflicts.length > 0) {
-    showNotification(
-      `Conflicts detected and resolved (${conflicts.length} conflicts). Server data took precedence.`,
-      5000
-    );
-    
-    console.log('Conflicts resolved:', conflicts);
-  }
-  
-  // Merge quotes (server takes precedence)
-  const mergedQuotes = mergeQuotes(quotes, serverQuotes);
-  
-  const oldCount = quotes.length;
-  quotes = mergedQuotes;
-  const newCount = quotes.length;
-  
-  // Save to local storage
-  saveQuotes();
-  
-  // Update categories
-  populateCategories();
-  
-  // Post current quotes to server
-  await postQuotesToServer(quotes);
-  
-  // Update sync status
-  const now = new Date().toLocaleTimeString();
-  syncStatus.textContent = `Last sync: ${now}`;
-  localStorage.setItem('lastSyncTime', now);
-  
-  // Show notification
-  showNotification('Quotes synced with server!', 3000);
-  
-  const addedCount = newCount - oldCount;
-  if (addedCount > 0) {
-    console.log(`${addedCount} new quotes added from server.`);
-  }
-  if (conflicts.length > 0) {
-    console.log(`${conflicts.length} conflicts resolved.`);
-  }
-  
-  // Refresh display
-  showRandomQuote();
-}
+  <script src="script.js"></script>
+</body>
+</html>
